@@ -1,0 +1,25 @@
+{
+  "name": "teamspeak6-music-bot",
+  "version": "1.0.0",
+  "description": "Music bot for TeamSpeak 6 server",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "teamspeak",
+    "teamspeak6",
+    "music-bot",
+    "bot"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "teamspeak.js": "^1.11.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
