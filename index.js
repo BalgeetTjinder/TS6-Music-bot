@@ -25,7 +25,7 @@ console.log('🚀 Запуск прототипа подключения к Team
 // Создаем Query подключение
 const query = new Query({
   host: config.server.host,
-  port: config.server.queryPort || 10022, // SSH Query обычно на 10022 для TS6
+  port: config.server.queryPort || 10011, // SSH Query обычно на 10011 для TS6
   protocol: 'ssh',
   ssh: {
     username: config.credentials.queryUsername,

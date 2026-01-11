@@ -2,8 +2,8 @@
   "server": {
     "_comment_host": "Для Docker: имя контейнера TS6 (teamspeak6-server) или 127.0.0.1 если network_mode: host",
     "host": "teamspeak6-server",
-    "_comment_queryPort": "SSH Query порт (обычно 10022 для TS6, 10011 для TS3)",
-    "queryPort": 10022,
+    "_comment_queryPort": "SSH Query порт (обычно 10011 для TS6 и TS3)",
+    "queryPort": 10011,
     "voicePort": 9987,
     "protocol": "ssh"
   },
