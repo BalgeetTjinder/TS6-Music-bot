@@ -5,7 +5,7 @@
     "_comment_queryPort": "SSH Query порт (обычно 10011 для TS6 и TS3)",
     "queryPort": 10011,
     "voicePort": 9987,
-    "protocol": "ssh"
+    "_comment_protocol": "Используйте 'raw' для порта 10011 (TS6 использует raw протокол)"
   },
   "credentials": {
     "queryUsername": "tryhard",

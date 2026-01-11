@@ -23,14 +23,13 @@ try {
 console.log('🚀 Запуск прототипа подключения к TeamSpeak 6...\n');
 
 // Создаем Query подключение
+// TS6 использует raw протокол на порту 10011 (не SSH)
 const query = new Query({
   host: config.server.host,
-  port: config.server.queryPort || 10011, // SSH Query обычно на 10011 для TS6
-  protocol: 'ssh',
-  ssh: {
-    username: config.credentials.queryUsername,
-    password: config.credentials.queryPassword,
-  },
+  port: config.server.queryPort || 10011,
+  protocol: 'raw',
+  username: config.credentials.queryUsername,
+  password: config.credentials.queryPassword,
 });
 
 // Обработка подключения
