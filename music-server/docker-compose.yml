@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # TeamSpeak 3 сервер для музыки
+  teamspeak3:
+    image: teamspeak:latest
+    container_name: ts3-music-server
+    restart: unless-stopped
+    ports:
+      - "9988:9987/udp"      # Голос (другой порт чтобы не конфликтовал с TS6)
+      - "10012:10011"        # Query
+      - "30034:30033"        # File transfer
+    environment:
+      TS3SERVER_LICENSE: accept
+      TS3SERVER_QUERY_PROTOCOLS: raw
+    volumes:
+      - ./ts3-data:/var/ts3server
+    networks:
+      - music-net
+
+  # SinusBot музыкальный бот
+  sinusbot:
+    image: sinusbot/docker:latest
+    container_name: sinusbot-music
+    restart: unless-stopped
+    depends_on:
+      - teamspeak3
+    ports:
+      - "8087:8087"          # Веб-интерфейс SinusBot
+    volumes:
+      - ./sinusbot-data:/opt/sinusbot/data
+      - ./sinusbot-scripts:/opt/sinusbot/scripts
+    networks:
+      - music-net
+
+networks:
+  music-net:
+    driver: bridge
