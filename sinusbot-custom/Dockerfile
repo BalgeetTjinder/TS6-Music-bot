@@ -35,6 +35,8 @@ RUN apt-get update && apt-get install -y \
     libdrm2 \
     libgbm1 \
     ffmpeg \
+    libavcodec-extra \
+    libavfilter-extra \
     locales \
     bzip2 \
     ca-certificates \
@@ -68,6 +70,14 @@ COPY sinusbot-files/plugin /opt/sinusbot/plugin
 
 # Копируем клиент TeamSpeak 3.6.2 (будет добавлен при сборке)
 COPY ts3client/ /opt/sinusbot/TeamSpeak3-Client-linux_amd64/
+
+# Создаём симлинки для FFmpeg (SinusBot требует FFmpeg 4.x)
+RUN ln -sf /usr/lib/x86_64-linux-gnu/libavfilter.so.9 /usr/lib/x86_64-linux-gnu/libavfilter.so.8 || true && \
+    ln -sf /usr/lib/x86_64-linux-gnu/libavformat.so.60 /usr/lib/x86_64-linux-gnu/libavformat.so.59 || true && \
+    ln -sf /usr/lib/x86_64-linux-gnu/libavcodec.so.60 /usr/lib/x86_64-linux-gnu/libavcodec.so.59 || true && \
+    ln -sf /usr/lib/x86_64-linux-gnu/libavutil.so.58 /usr/lib/x86_64-linux-gnu/libavutil.so.57 || true && \
+    ln -sf /usr/lib/x86_64-linux-gnu/libswresample.so.4 /usr/lib/x86_64-linux-gnu/libswresample.so.3 || true && \
+    ln -sf /usr/lib/x86_64-linux-gnu/libswscale.so.7 /usr/lib/x86_64-linux-gnu/libswscale.so.6 || true
 
 # Устанавливаем права
 RUN chmod 755 /opt/sinusbot/sinusbot && \
