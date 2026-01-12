@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  sinusbot:
+    build: .
+    container_name: sinusbot-ts6
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./data:/opt/sinusbot/data
+      - ./scripts:/opt/sinusbot/scripts
+    environment:
+      - DISPLAY=:99
