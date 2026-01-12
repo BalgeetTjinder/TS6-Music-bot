@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     libopus0 \
     wget \
     python3 \
+    libicu72 \
     && rm -rf /var/lib/apt/lists/*
 
 # Устанавливаем yt-dlp
