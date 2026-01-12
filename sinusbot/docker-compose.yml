@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  sinusbot:
+    image: sinusbot/docker:latest
+    container_name: sinusbot
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./data:/opt/sinusbot/data
+      - ./scripts:/opt/sinusbot/scripts
+    environment:
+      - UID=1000
+      - GID=1000
+    cap_add:
+      - SYS_NICE
