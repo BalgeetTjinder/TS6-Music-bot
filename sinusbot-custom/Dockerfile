@@ -48,6 +48,7 @@ RUN apt-get update && apt-get install -y \
 # Настраиваем локаль
 RUN locale-gen en_US.UTF-8
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+ENV LD_LIBRARY_PATH=/opt/sinusbot:/opt/sinusbot/TeamSpeak3-Client-linux_amd64
 
 # Создаём пользователя sinusbot (используем существующую группу если GID 1000 занят)
 RUN groupadd -g 1001 sinusbot || true && \
@@ -64,6 +65,11 @@ COPY sinusbot-files/sinusbot /opt/sinusbot/sinusbot
 COPY sinusbot-files/config.ini.dist /opt/sinusbot/config.ini
 COPY sinusbot-files/scripts /opt/sinusbot/scripts
 COPY sinusbot-files/plugin /opt/sinusbot/plugin
+
+# Копируем библиотеки FFmpeg и TTS
+COPY sinusbot-files/libav*.so* /opt/sinusbot/
+COPY sinusbot-files/libsw*.so* /opt/sinusbot/
+COPY sinusbot-files/libsbtts_rt.so /opt/sinusbot/
 
 # Копируем клиент TeamSpeak 3.6.2 (будет добавлен при сборке)
 COPY ts3client/ /opt/sinusbot/TeamSpeak3-Client-linux_amd64/
