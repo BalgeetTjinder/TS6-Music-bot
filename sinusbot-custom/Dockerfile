@@ -59,12 +59,12 @@ RUN groupadd -g 1001 sinusbot || true && \
 RUN mkdir -p /opt/sinusbot /opt/sinusbot/data /opt/sinusbot/scripts \
     /opt/sinusbot/TeamSpeak3-Client-linux_amd64
 
-# Скачиваем SinusBot
+# Копируем SinusBot (из локальных файлов)
 WORKDIR /opt/sinusbot
-RUN wget -q https://www.sinusbot.com/dl/sinusbot.current.tar.bz2 && \
-    tar -xjf sinusbot.current.tar.bz2 && \
-    rm sinusbot.current.tar.bz2 && \
-    cp config.ini.dist config.ini
+COPY sinusbot-files/sinusbot /opt/sinusbot/sinusbot
+COPY sinusbot-files/config.ini.dist /opt/sinusbot/config.ini
+COPY sinusbot-files/scripts /opt/sinusbot/scripts
+COPY sinusbot-files/plugin /opt/sinusbot/plugin
 
 # Копируем клиент TeamSpeak 3.6.2 (будет добавлен при сборке)
 COPY ts3client/ /opt/sinusbot/TeamSpeak3-Client-linux_amd64/
