@@ -27,6 +27,9 @@ services:
       - teamspeak3
     ports:
       - "8087:8087"          # Веб-интерфейс SinusBot
+    environment:
+      - UID=1000
+      - GID=1000
     volumes:
       - ./sinusbot-data:/opt/sinusbot/data
       - ./sinusbot-scripts:/opt/sinusbot/scripts
