@@ -8,5 +8,6 @@ services:
     network_mode: host
     volumes:
       - ./config.json:/app/config.json:ro
+      - ./cache:/app/cache
     environment:
       - NODE_ENV=production

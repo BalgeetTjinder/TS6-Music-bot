@@ -1,23 +1,23 @@
 {
-  "name": "teamspeak6-music-bot",
+  "name": "ts6-music-bot",
   "version": "1.0.0",
-  "description": "Music bot for TeamSpeak 6 server",
-  "main": "index.js",
+  "description": "Music bot for TeamSpeak 6 server with YouTube support",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js"
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
   },
   "keywords": [
     "teamspeak",
     "teamspeak6",
     "music-bot",
-    "bot"
+    "youtube"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "teamspeak.js": "^1.11.1"
+    "net": "^1.0.2"
   },
   "engines": {
     "node": ">=18.0.0"
