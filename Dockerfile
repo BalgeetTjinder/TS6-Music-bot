@@ -3,6 +3,9 @@ FROM mcr.microsoft.com/dotnet/runtime:8.0
 LABEL maintainer="TS6 Music Bot"
 LABEL description="TS3AudioBot for TeamSpeak 6"
 
+# Отключаем глобализацию .NET (решает проблему с ICU)
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+
 # Устанавливаем зависимости
 RUN apt-get update && apt-get install -y \
     ffmpeg \
