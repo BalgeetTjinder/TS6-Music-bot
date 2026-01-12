@@ -86,8 +86,5 @@ EXPOSE 8087
 # Том для данных
 VOLUME ["/opt/sinusbot/data", "/opt/sinusbot/scripts"]
 
-# Переключаемся на пользователя sinusbot
-USER 1001
-
-# Запуск
+# Запуск (от root для избежания проблем с правами)
 ENTRYPOINT ["/entrypoint.sh"]
