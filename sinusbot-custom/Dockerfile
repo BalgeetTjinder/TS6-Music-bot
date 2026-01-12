@@ -50,9 +50,10 @@ RUN apt-get update && apt-get install -y \
 RUN locale-gen en_US.UTF-8
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
-# Создаём пользователя sinusbot
-RUN groupadd -g 1000 sinusbot && \
-    useradd -u 1000 -g sinusbot -m -s /bin/bash sinusbot
+# Создаём пользователя sinusbot (используем существующую группу если GID 1000 занят)
+RUN groupadd -g 1001 sinusbot || true && \
+    useradd -u 1001 -g 1001 -m -s /bin/bash sinusbot || \
+    useradd -u 1001 -m -s /bin/bash sinusbot
 
 # Создаём директории
 RUN mkdir -p /opt/sinusbot /opt/sinusbot/data /opt/sinusbot/scripts \
@@ -66,12 +67,12 @@ RUN wget -q https://www.sinusbot.com/dl/sinusbot.current.tar.bz2 && \
     cp config.ini.dist config.ini
 
 # Копируем клиент TeamSpeak 3.6.2 (будет добавлен при сборке)
-COPY --chown=sinusbot:sinusbot ts3client/ /opt/sinusbot/TeamSpeak3-Client-linux_amd64/
+COPY ts3client/ /opt/sinusbot/TeamSpeak3-Client-linux_amd64/
 
 # Устанавливаем права
 RUN chmod 755 /opt/sinusbot/sinusbot && \
     chmod 755 /opt/sinusbot/TeamSpeak3-Client-linux_amd64/ts3client_linux_amd64 && \
-    chown -R sinusbot:sinusbot /opt/sinusbot
+    chown -R 1001:1001 /opt/sinusbot
 
 # Копируем entrypoint скрипт
 COPY entrypoint.sh /entrypoint.sh
@@ -87,7 +88,7 @@ EXPOSE 8087
 VOLUME ["/opt/sinusbot/data", "/opt/sinusbot/scripts"]
 
 # Переключаемся на пользователя sinusbot
-USER sinusbot
+USER 1001
 
 # Запуск
 ENTRYPOINT ["/entrypoint.sh"]
