@@ -107,19 +107,19 @@ namespace TSLib.Full
 				read = 6 + nullStr.read;
 				break;
 
-			// TS6 support: license block type 8
+			// TS6 support: license block types 8, 32, 72 and others
 			case 8:
-				block = new EphemeralLicenseBlock();
-				read = 0;
-				break;
-
 			case 32:
+			case 72:
 				block = new EphemeralLicenseBlock();
 				read = 0;
 				break;
 
 			default:
-				return $"Invalid license block type {data[33]}";
+				// TS6 support: treat unknown types as ephemeral
+				block = new EphemeralLicenseBlock();
+				read = 0;
+				break;
 			}
 
 			block.NotValidBefore = Tools.UnixTimeStart.AddSeconds(BinaryPrimitives.ReadUInt32BigEndian(data.Slice(34)) + 0x50e22700uL);
