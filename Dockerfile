@@ -1,30 +1,41 @@
-FROM node:20-alpine
+FROM mcr.microsoft.com/dotnet/runtime:8.0
 
-# Устанавливаем необходимые пакеты
-RUN apk add --no-cache \
-    ffmpeg \
-    python3 \
-    py3-pip \
-    && pip3 install --break-system-packages yt-dlp
-
-WORKDIR /app
-
-# Копируем package файлы
-COPY package*.json ./
+LABEL maintainer="TS6 Music Bot"
+LABEL description="TS3AudioBot for TeamSpeak 6"
 
 # Устанавливаем зависимости
-RUN npm ci --only=production 2>/dev/null || npm install --only=production
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    opus-tools \
+    libopus0 \
+    wget \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Копируем исходный код
-COPY src/ ./src/
+# Устанавливаем yt-dlp
+RUN wget -O /usr/local/bin/yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp \
+    && chmod +x /usr/local/bin/yt-dlp
 
-# Создаем директорию для кэша
-RUN mkdir -p ./cache
+# Создаём пользователя
+RUN useradd -m -s /bin/bash ts3bot
 
-# Используем существующего пользователя node
-RUN chown -R node:node /app
+# Создаём директорию
+WORKDIR /opt/ts3audiobot
 
-USER node
+# Скачиваем TS3AudioBot
+RUN wget https://github.com/Splamy/TS3AudioBot/releases/latest/download/TS3AudioBot_linux_x64.tar.gz \
+    && tar -xzf TS3AudioBot_linux_x64.tar.gz \
+    && rm TS3AudioBot_linux_x64.tar.gz \
+    && chown -R ts3bot:ts3bot /opt/ts3audiobot
 
-# Запускаем бота
-CMD ["node", "src/index.js"]
+# Переключаемся на пользователя
+USER ts3bot
+
+# Порт веб-интерфейса
+EXPOSE 58913
+
+# Том для данных
+VOLUME ["/opt/ts3audiobot/data"]
+
+# Запуск
+CMD ["./TS3AudioBot"]
