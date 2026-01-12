@@ -6,6 +6,9 @@ services:
     container_name: sinusbot
     restart: unless-stopped
     network_mode: host
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     volumes:
       - ./data:/opt/sinusbot/data
       - ./scripts:/opt/sinusbot/scripts
